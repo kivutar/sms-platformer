@@ -20,8 +20,8 @@ char map[12*16] = {
 };
 
 struct player {
-	float x;
-	float y;
+	int x;
+	int y;
 	float xspeed;
 	float yspeed;
 	unsigned char direction;
@@ -29,14 +29,9 @@ struct player {
 	unsigned char frame_t;
 };
 
-int on_the_ground(struct player *p) {
-	return map[((int)p->y+16)/16*16 + (int)p->x/16] == 1 || map[((int)p->y+16)/16*16 + (int)p->x/16+1] == 1;
-}
-
 void update_player(struct player *p) {
 	unsigned int keys = SMS_getKeysStatus();
 	unsigned int keys_pressed = SMS_getKeysPressed();
-	int grounded = on_the_ground(p);
 
 	if (keys & PORT_A_KEY_LEFT) {
 		p->xspeed = -2;
@@ -49,14 +44,22 @@ void update_player(struct player *p) {
 		p->frame_t = 0;
 	}
 
-	if (!grounded) {
-		p->yspeed += 0.2;
-	} else {
-		if (keys_pressed & PORT_A_KEY_1) {
-			p->yspeed = -4;
-		} else {
-			p->yspeed = 0;
-		}
+	if (keys_pressed & PORT_A_KEY_1 && p->yspeed == 0)
+		p->yspeed = -4;
+
+	p->yspeed += 0.2;
+
+	if (p->yspeed > 0 && (map[(p->y+16)/16*16 + p->x/16] == 1 || map[(p->y+16)/16*16 + (p->x/16)+1] == 1)){
+		p->yspeed = 0;
+		p->y = (p->y/16)*16;
+	}
+
+	if (p->xspeed < 0 && (map[(p->y)/16*16 + p->x/16] == 1 || map[(p->y+14)/16*16 + p->x/16] == 1)){
+		p->xspeed = 0;
+		p->x = (p->x/16)*16+16;
+	} else if (p->xspeed > 0 && (map[(p->y)/16*16 + (p->x/16)+1] == 1 || map[(p->y+14)/16*16 + (p->x/16)+1] == 1)){
+		p->xspeed = 0;
+		p->x = (p->x/16)*16;
 	}
 
 	p->x += p->xspeed;
