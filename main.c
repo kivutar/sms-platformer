@@ -29,6 +29,8 @@ struct player {
 	unsigned char frame_t;
 };
 
+char running[4] = {0, 1, 2, 1};
+
 void update_player(struct player *p) {
 	unsigned int keys = SMS_getKeysStatus();
 	unsigned int keys_pressed = SMS_getKeysPressed();
@@ -72,10 +74,7 @@ void update_player(struct player *p) {
 		p->frame = 0;
 	} else if (p->xspeed != 0) {
 		p->frame_t = (p->frame_t + 1) % 16;
-		if (p->frame_t == 0) p->frame = 0;
-		else if (p->frame_t/4 == 1) p->frame = 1;
-		else if (p->frame_t/4 == 2) p->frame = 2;
-		else if (p->frame_t/4 == 3) p->frame = 1;
+		p->frame = running[p->frame_t/4];
 	} else {
 		p->frame = 3;
 	}
