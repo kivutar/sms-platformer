@@ -74,21 +74,21 @@ void update_player(struct player *p) {
 		p->frame = 0;
 	} else if (p->xspeed != 0) {
 		p->frame_t = (p->frame_t + 1) % 16;
-		p->frame = running[p->frame_t/4];
+		p->frame = running[p->frame_t>>2];
 	} else {
 		p->frame = 3;
 	}
 }
 
 void draw_player(struct player *p) {
-	SMS_addTwoAdjoiningSprites(p->x, p->y 	, 0 + p->frame*8 + p->direction*4);
+	SMS_addTwoAdjoiningSprites(p->x, p->y  , 0 + p->frame*8 + p->direction*4);
 	SMS_addTwoAdjoiningSprites(p->x, p->y+8, 2 + p->frame*8 + p->direction*4);
 }
 
 void draw_16x16_block(unsigned char x, unsigned char y) {
-	SMS_setTileatXY(x, y, 1);
-	SMS_setTileatXY(x+1, y, 2);
-	SMS_setTileatXY(x, y+1, 3);
+	SMS_setTileatXY(x+0, y+0, 1);
+	SMS_setTileatXY(x+1, y+0, 2);
+	SMS_setTileatXY(x+0, y+1, 3);
 	SMS_setTileatXY(x+1, y+1, 4);
 }
 
