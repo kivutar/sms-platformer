@@ -105,4 +105,4 @@ void main(void)
 }
 
 SMS_EMBED_SEGA_ROM_HEADER(9999,0);
-SMS_EMBED_SDSC_HEADER_AUTO_DATE(1,0,"raphnet","first test","A first test. If you can compile this, you're good to go");
+SMS_EMBED_SDSC_HEADER_AUTO_DATE(1,0,"kivutar","platformer","A platformer example");
