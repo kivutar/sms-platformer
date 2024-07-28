@@ -22,6 +22,12 @@ extern const unsigned char	turnip_spr1_left_psgcompr[67];
 extern const unsigned char	turnip_spr1_right_psgcompr[67];
 #define				turnip_spr1_right_psgcompr_size 67
 #define				turnip_spr1_right_psgcompr_bank 2
+extern const unsigned char	block_psgcompr[46];
+#define				block_psgcompr_size 46
+#define				block_psgcompr_bank 2
 extern const unsigned char	turnip_spr_pal_bin[8];
 #define				turnip_spr_pal_bin_size 8
 #define				turnip_spr_pal_bin_bank 2
+extern const unsigned char	block_pal_bin[7];
+#define				block_pal_bin_size 7
+#define				block_pal_bin_bank 2

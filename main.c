@@ -14,13 +14,13 @@ struct player {
 void update_player(struct player *p) {
   unsigned int keys = SMS_getKeysStatus();
 
-  if (keys & PORT_A_KEY_LEFT){
+  if (keys & PORT_A_KEY_LEFT) {
     p->xspeed = -2;
     p->direction = 0;
-  }else if (keys & PORT_A_KEY_RIGHT){
+  } else if (keys & PORT_A_KEY_RIGHT) {
     p->xspeed = 2;
     p->direction = 1;
-  }else{
+  } else {
     p->xspeed = 0;
     p->frame_t = 0;
   }
@@ -37,15 +37,15 @@ void update_player(struct player *p) {
 
   if (p->x < 0) p->x = 0;
 
-  if (p->yspeed != 0){
+  if (p->yspeed != 0) {
     p->frame = 2;
-  }else if (p->xspeed != 0){
+  } else if (p->xspeed != 0) {
     p->frame_t = (p->frame_t + 1) % 16;
     if (p->frame_t == 0) p->frame = 0;
     else if (p->frame_t/4 == 1) p->frame = 1;
     else if (p->frame_t/4 == 2) p->frame = 2;
     else if (p->frame_t/4 == 3) p->frame = 1;
-  }else{
+  } else {
     p->frame = 3;
   }
 }
@@ -55,13 +55,16 @@ void draw_player(struct player *p) {
   SMS_addTwoAdjoiningSprites(p->x, p->y+8, 2 + p->frame*8 + p->direction*4);
 }
 
+void draw_16x16_block(unsigned char x, unsigned char y) {
+  SMS_setTileatXY(x, y, 1);
+  SMS_setTileatXY(x+1, y, 2);
+  SMS_setTileatXY(x, y+1, 3);
+  SMS_setTileatXY(x+1, y+1, 4);
+}
+
 void main(void)
 {
   SMS_VRAMmemsetW(0, 0x0000, 16384);
-
-  SMS_autoSetUpTextRenderer();
-
-  SMS_setBGPaletteColor(0, RGBHTML(0x55ffaa));
 
   SMS_useFirstHalfTilesforSprites(0);
   SMS_loadPSGaidencompressedTiles(turnip_spr0_left_psgcompr,  256);
@@ -74,6 +77,14 @@ void main(void)
   SMS_loadPSGaidencompressedTiles(turnip_spr3_right_psgcompr, 256+28);
   SMS_loadSpritePalette(turnip_spr_pal_bin); 
 
+  SMS_loadPSGaidencompressedTiles(block_psgcompr, 1);
+  SMS_loadBGPalette(block_pal_bin);
+  SMS_setBGPaletteColor(0, RGBHTML(0x55ffaa));
+
+  for (int y = 0; y < 3; y++)
+    for (int x = 0; x < 16; x++)
+      draw_16x16_block(x*2, 18+y*2);
+
   SMS_displayOn();
 
   struct player p;
@@ -85,7 +96,6 @@ void main(void)
   for(;;) {
     update_player(&p);
 
-    SMS_printatXY(4, 12, "KIVUTAR");
     SMS_initSprites();
     draw_player(&p);
 
