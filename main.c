@@ -12,8 +12,8 @@ char map[12*16] = {
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-	0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,
-	0,0,0,0,0,0,0,0,1,1,1,1,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+	0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 	1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 	1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
 	1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
@@ -52,8 +52,8 @@ void update_player(struct player *p) {
 
 	if (keys_pressed & PORT_A_KEY_1 && p->yspeed == 0)
 		p->yspeed = -64;
-
-	p->yspeed += 3;
+	else
+		p->yspeed += 3;
 
 	if (p->yspeed > 0 && (map_get(p->x, p->y+16) || map_get(p->x+15, p->y+16))) {
 		p->yspeed = 0;
@@ -109,14 +109,9 @@ void main(void)
 	SMS_loadPSGaidencompressedTiles(turnip_spr3_right_psgcompr, 256+28);
 	SMS_loadSpritePalette(turnip_spr_pal_bin);
 
-	SMS_loadPSGaidencompressedTiles(block_psgcompr, 1);
-	SMS_loadBGPalette(block_pal_bin);
-	SMS_setBGPaletteColor(0, RGBHTML(0x55ffaa));
-
-	for (int y = 0; y < 12; y++)
-		for (int x = 0; x < 16; x++)
-			if (map[y*16+x] == 1)
-				draw_16x16_block(x*2, y*2);
+	SMS_loadPSGaidencompressedTiles(map_psgcompr, 0);
+	SMS_loadBGPalette(map_pal_bin);
+	SMS_loadTileMapArea(0, 0, map_tilemap_bin, 32, 24);
 
 	SMS_displayOn();
 

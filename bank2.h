@@ -1,3 +1,9 @@
+extern const unsigned char	map_tilemap_bin[1536];
+#define				map_tilemap_bin_size 1536
+#define				map_tilemap_bin_bank 2
+extern const unsigned char	map_psgcompr[258];
+#define				map_psgcompr_size 258
+#define				map_psgcompr_bank 2
 extern const unsigned char	turnip_spr3_left_psgcompr[70];
 #define				turnip_spr3_left_psgcompr_size 70
 #define				turnip_spr3_left_psgcompr_bank 2
@@ -22,12 +28,9 @@ extern const unsigned char	turnip_spr1_left_psgcompr[67];
 extern const unsigned char	turnip_spr1_right_psgcompr[67];
 #define				turnip_spr1_right_psgcompr_size 67
 #define				turnip_spr1_right_psgcompr_bank 2
-extern const unsigned char	block_psgcompr[46];
-#define				block_psgcompr_size 46
-#define				block_psgcompr_bank 2
+extern const unsigned char	map_pal_bin[12];
+#define				map_pal_bin_size 12
+#define				map_pal_bin_bank 2
 extern const unsigned char	turnip_spr_pal_bin[8];
 #define				turnip_spr_pal_bin_size 8
 #define				turnip_spr_pal_bin_bank 2
-extern const unsigned char	block_pal_bin[7];
-#define				block_pal_bin_size 7
-#define				block_pal_bin_bank 2
