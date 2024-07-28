@@ -1,6 +1,9 @@
 #include "SMSlib.h"
 #include "bank2.h"
 
+#define DIR_LEFT 0
+#define DIR_RIGHT 1
+
 struct player {
   float x;
   float y;
@@ -13,13 +16,14 @@ struct player {
 
 void update_player(struct player *p) {
   unsigned int keys = SMS_getKeysStatus();
+  unsigned int keys_pressed = SMS_getKeysPressed();
 
   if (keys & PORT_A_KEY_LEFT) {
     p->xspeed = -2;
-    p->direction = 0;
+    p->direction = DIR_LEFT;
   } else if (keys & PORT_A_KEY_RIGHT) {
     p->xspeed = 2;
-    p->direction = 1;
+    p->direction = DIR_RIGHT;
   } else {
     p->xspeed = 0;
     p->frame_t = 0;
@@ -28,8 +32,12 @@ void update_player(struct player *p) {
   if (p->y < 128) {
     p->yspeed += 0.2;
   } else {
-    p->yspeed = 0;
-    p->y = 128;
+    if (keys_pressed & PORT_A_KEY_1) {
+      p->yspeed = -4;
+    } else {
+      p->yspeed = 0;
+      p->y = 128;
+    }
   }
 
   p->x += p->xspeed;
@@ -38,7 +46,7 @@ void update_player(struct player *p) {
   if (p->x < 0) p->x = 0;
 
   if (p->yspeed != 0) {
-    p->frame = 2;
+    p->frame = 0;
   } else if (p->xspeed != 0) {
     p->frame_t = (p->frame_t + 1) % 16;
     if (p->frame_t == 0) p->frame = 0;
