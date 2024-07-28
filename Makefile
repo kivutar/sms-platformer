@@ -1,6 +1,6 @@
 CC=sdcc
-IHX2SMS=~/devkitSMS/ihx2sms/Linux/ihx2sms
-DEVKITSMS_BASE=../../
+DEVKITSMS_BASE=$(HOME)/devkitSMS
+IHX2SMS=$(DEVKITSMS_BASE)/ihx2sms/Linux/ihx2sms
 SMSLIB_BASE=$(DEVKITSMS_BASE)/SMSlib
 SMSLIB_INCDIR=$(SMSLIB_BASE)/src
 PEEP_RULES=$(SMSLIB_BASE)/src/peep-rules.txt
