@@ -31,6 +31,10 @@ struct player {
 
 char running[4] = {0, 1, 2, 1};
 
+char map_get(int x, int y) {
+	return map[(y>>4<<4)+(x>>4)];
+}
+
 void update_player(struct player *p) {
 	unsigned int keys = SMS_getKeysStatus();
 	unsigned int keys_pressed = SMS_getKeysPressed();
@@ -51,15 +55,13 @@ void update_player(struct player *p) {
 
 	p->yspeed += 3;
 
-	if (p->yspeed > 0 && (map[((p->y+16)>>4<<4) + (p->x>>4)] == 1 || map[((p->y+16)>>4<<4) + ((p->x+15)>>4)] == 1)) {
+	if (p->yspeed > 0 && (map_get(p->x, p->y+16) || map_get(p->x+15, p->y+16))) {
 		p->yspeed = 0;
 		p->y = p->y>>4<<4;
 	}
 
-	if (p->xspeed < 0 && (map[((p->y)>>4<<4) + ((p->x-1)>>4)] == 1 || map[((p->y+15)>>4<<4) + ((p->x-1)>>4)] == 1)) {
-		p->xspeed = 0;
-		p->x = p->x>>4<<4;
-	} else if (p->xspeed > 0 && (map[((p->y)>>4<<4) + ((p->x+16)>>4)] == 1 || map[((p->y+15)>>4<<4) + ((p->x+16)>>4)] == 1)){
+	if ((p->xspeed < 0 && (map_get(p->x-1,  p->y) || map_get(p->x-1,  p->y+15)))
+	 || (p->xspeed > 0 && (map_get(p->x+16, p->y) || map_get(p->x+16, p->y+15)))) {
 		p->xspeed = 0;
 		p->x = p->x>>4<<4;
 	}
