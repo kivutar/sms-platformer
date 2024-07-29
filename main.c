@@ -87,13 +87,6 @@ void draw_player(struct player *p) {
 	SMS_addTwoAdjoiningSprites(p->x, p->y+8, 2 + p->frame*8 + p->direction*4);
 }
 
-void draw_16x16_block(unsigned char x, unsigned char y) {
-	SMS_setTileatXY(x+0, y+0, 1);
-	SMS_setTileatXY(x+1, y+0, 2);
-	SMS_setTileatXY(x+0, y+1, 3);
-	SMS_setTileatXY(x+1, y+1, 4);
-}
-
 void main(void)
 {
 	SMS_VRAMmemsetW(0, 0x0000, 16384);
@@ -116,9 +109,9 @@ void main(void)
 	SMS_displayOn();
 
 	struct player p;
-	p.x = 16;
-	p.y = 16;
-	p.direction = 0;
+	p.x = 48;
+	p.y = 0;
+	p.direction = DIR_RIGHT;
 	p.frame = 0;
 
 	for(;;) {
