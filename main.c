@@ -110,9 +110,11 @@ void main(void)
 
 	struct player p;
 	p.x = 48;
-	p.y = 0;
+	p.y = 16;
 	p.direction = DIR_RIGHT;
 	p.frame = 0;
+	p.yspeed = 0;
+	p.xspeed = 0;
 
 	for(;;) {
 		update_player(&p);
