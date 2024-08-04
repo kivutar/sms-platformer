@@ -9,4 +9,3 @@ extern song_data_t const cmajor_sn;
 song_t const song_table_sn[] = {
 	SONG_DEF(cmajor_sn, 3),
 };
-
