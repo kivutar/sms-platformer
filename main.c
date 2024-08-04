@@ -25,6 +25,7 @@ char map[12*64] = {
 struct player {
 	int x;
 	int y;
+	int old_x;
 	int xspeed;
 	int yspeed;
 	unsigned char direction;
@@ -87,13 +88,15 @@ void update_player(struct player *p) {
 	}
 
 	if (p->x >= 128) {
-		int scrollx = - p->x + 128;
-		if (p->xspeed>>4 > 0 && scrollx % 8 == 0)
+		int scrollx = - p->old_x + 128;
+		if (p->x > p->old_x && scrollx % 8 == 0)
 			SMS_loadTileMapColumn((32 - scrollx / 8) % 32, 0, &map_tilemap_cmraw[(32 - scrollx / 8) * 48], 24);
-		else if (p->xspeed>>4 < 0 && scrollx % 8 == 0)
+		else if (p->x < p->old_x && scrollx % 8 == 0)
 			SMS_loadTileMapColumn((-scrollx / 8) % 32, 0, &map_tilemap_cmraw[(-scrollx / 8) * 48], 24);
 		SMS_setBGScrollX(scrollx);
 	}
+
+	p->old_x = p->x;
 }
 
 void draw_player(struct player *p) {
@@ -107,7 +110,6 @@ void main(void)
 {
 	SMS_VRAMmemsetW(0, 0x0000, 16384);
 
-	SMS_setBGPaletteColor(0, RGBHTML(0x000000));
 	SMS_VDPturnOnFeature(VDPFEATURE_HIDEFIRSTCOL);
 
 	banjo_init(MODE_SN);
@@ -125,6 +127,7 @@ void main(void)
 
 	SMS_loadPSGaidencompressedTiles(map_psgcompr, 0);
 	SMS_loadBGPalette(map_pal_bin);
+	SMS_setBackdropColor(1);
 
 	for (int x = 0; x < 32; x++)
 		SMS_loadTileMapColumn(x, 0, &map_tilemap_cmraw[x*48], 24);
