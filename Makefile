@@ -1,18 +1,20 @@
 CC=sdcc
 DEVKITSMS_BASE=$(HOME)/devkitSMS
 IHX2SMS=$(DEVKITSMS_BASE)/ihx2sms/Linux/ihx2sms
+MAKESMS=$(DEVKITSMS_BASE)/makesms/Linux/makesms
 SMSLIB_BASE=$(DEVKITSMS_BASE)/SMSlib
 SMSLIB_INCDIR=$(SMSLIB_BASE)/src
 PEEP_RULES=$(SMSLIB_BASE)/src/peep-rules.txt
 CRT0=$(DEVKITSMS_BASE)/crt0/crt0_sms.rel
 SMSLIB_LIB=$(SMSLIB_BASE)/SMSlib.lib
+BANJO_INCDIR=music_driver_sdas
 
-CFLAGS=-mz80 -I$(SMSLIB_INCDIR) --peep-file $(PEEP_RULES)
+CFLAGS=-mz80 -I$(SMSLIB_INCDIR) -I$(BANJO_INCDIR) --peep-file $(PEEP_RULES)
 LDFLAGS=-mz80 --no-std-crt0 --data-loc 0xC000
 
 PROGNAME=platformer
 
-OBJS=main.rel bank2.rel
+OBJS=main.rel bank2.rel music_driver_sdas/lib/music_driver_fm_drums.rel cmajor_sn.rel
 
 all: $(PROGNAME).sms
 
@@ -36,3 +38,4 @@ clean:
 # file is up to date the next time it runs... This forces linking to take place
 # every time make is called.
 .PHONY: $(PROGNAME).ihx
+

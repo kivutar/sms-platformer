@@ -1,5 +1,8 @@
 #include "SMSlib.h"
+#include "banjo.h"
+
 #include "bank2.h"
+#include "song_table.h"
 
 #define DIR_LEFT 0
 #define DIR_RIGHT 1
@@ -91,6 +94,9 @@ void main(void)
 {
 	SMS_VRAMmemsetW(0, 0x0000, 16384);
 
+	banjo_init(MODE_SN);
+	banjo_set_song_table(song_table_sn);
+
 	SMS_loadPSGaidencompressedTiles(turnip_spr0_left_psgcompr,  256);
 	SMS_loadPSGaidencompressedTiles(turnip_spr0_right_psgcompr, 256+4);
 	SMS_loadPSGaidencompressedTiles(turnip_spr1_left_psgcompr,  256+8);
@@ -115,6 +121,8 @@ void main(void)
 	p.yspeed = 0;
 	p.xspeed = 0;
 
+	banjo_queue_song(0);
+
 	for(;;) {
 		update_player(&p);
 
@@ -123,6 +131,8 @@ void main(void)
 
 		SMS_waitForVBlank();
 		SMS_copySpritestoSAT();
+
+		banjo_update();
 	}
 }
 
