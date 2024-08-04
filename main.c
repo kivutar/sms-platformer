@@ -91,7 +91,6 @@ void main(void)
 {
 	SMS_VRAMmemsetW(0, 0x0000, 16384);
 
-	SMS_useFirstHalfTilesforSprites(0);
 	SMS_loadPSGaidencompressedTiles(turnip_spr0_left_psgcompr,  256);
 	SMS_loadPSGaidencompressedTiles(turnip_spr0_right_psgcompr, 256+4);
 	SMS_loadPSGaidencompressedTiles(turnip_spr1_left_psgcompr,  256+8);

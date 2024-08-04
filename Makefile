@@ -5,8 +5,7 @@ SMSLIB_BASE=$(DEVKITSMS_BASE)/SMSlib
 SMSLIB_INCDIR=$(SMSLIB_BASE)/src
 PEEP_RULES=$(SMSLIB_BASE)/src/peep-rules.txt
 CRT0=$(DEVKITSMS_BASE)/crt0/crt0_sms.rel
-SMSLIB_LIB=$(SMSLIB_BASE)/SMSlib.lib          # Use distributed lib
-#SMSLIB_LIB=$(SMSLIB_BASE)/src/SMSlib.lib      # Use locally compiled lib
+SMSLIB_LIB=$(SMSLIB_BASE)/SMSlib.lib
 
 CFLAGS=-mz80 -I$(SMSLIB_INCDIR) --peep-file $(PEEP_RULES)
 LDFLAGS=-mz80 --no-std-crt0 --data-loc 0xC000
